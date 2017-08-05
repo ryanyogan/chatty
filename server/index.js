@@ -6,6 +6,7 @@ import { makeExecutableSchema, addMockFunctionsToSchema } from 'graphql-tools';
 import bodyParser from 'body-parser';
 import { createServer } from 'http';
 
+import { Resolvers } from './data/resolvers';
 import { Schema } from './data/schema';
 import { Mocks } from './data/mocks';
 
@@ -14,13 +15,15 @@ const app = express();
 
 const executableSchema = makeExecutableSchema({
   typeDefs: Schema,
+  resolvers: Resolvers, // Comment this line out to use mocked data
 });
 
-addMockFunctionsToSchema({
-  schema: executableSchema,
-  mocks: Mocks,
-  preserveResolvers: true,
-});
+// Remove comments below to use mocked data
+// addMockFunctionsToSchema({
+//   schema: executableSchema,
+//   mocks: Mocks,
+//   preserveResolvers: true,
+// });
 
 // `context` must be an object and cannot be undefined when using connectors
 app.use('/graphql', bodyParser.json(), graphqlExpress({
