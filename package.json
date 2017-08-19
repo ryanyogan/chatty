@@ -5,7 +5,8 @@
   "repository": {},
   "license": "MIT",
   "scripts": {
-    "start": "nodemon --watch server --watch package.json server/index.js --exec babel-node --presets es2015,stage-2"
+    "start": "nodemon --watch server --watch package.json server/index.js --exec babel-node --presets es2015,stage-2",
+    "prettier": "prettier --single-quote --print-width 80 --trailing-comma all --write '{server,client}/**/*.js'"
   },
   "devDependencies": {
     "babel-cli": "^6.26.0",
@@ -19,6 +20,10 @@
     "prettier": "^1.5.3"
   },
   "dependencies": {
-    "express": "^4.15.4"
+    "body-parser": "^1.17.2",
+    "express": "^4.15.4",
+    "graphql": "^0.10.5",
+    "graphql-server-express": "^1.1.0",
+    "graphql-tools": "^1.2.1"
   }
 }

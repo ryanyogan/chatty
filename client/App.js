@@ -1,12 +1,34 @@
-import React from 'react';
+import React, { Component } from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import { ApolloProvider } from 'react-apollo';
+import { createStore, combineReducers, applyMiddleware } from 'redux';
+import { composeWithDevTools } from 'redux-devtools-extension';
+import ApolloClient, { createNetworkInterface } from 'apollo-client';
 
-export default class App extends React.Component {
+const networkInterface = createNetworkInterface({
+  uri: 'http://192.168.1.4:8080/graphql',
+});
+
+const client = new ApolloClient({
+  networkInterface,
+});
+
+const store = createStore(
+  combineReducers({
+    apollo: client.reducer(),
+  }),
+  {},
+  composeWithDevTools(applyMiddleware(client.middleware())),
+);
+
+export default class App extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Text>Open up App.js to start working on your app!</Text>
-      </View>
+      <ApolloProvider store={store} client={client}>
+        <View style={styles.container}>
+          <Text>Hellllooooo</Text>
+        </View>
+      </ApolloProvider>
     );
   }
 }
