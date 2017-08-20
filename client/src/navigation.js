@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React from 'react';
 import PropTypes from 'prop-types';
 import {
   addNavigationHelpers,
@@ -7,6 +7,8 @@ import {
 } from 'react-navigation';
 import { Text, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
+
+import Groups from './screens/groups.screen';
 
 const styles = StyleSheet.create({
   container: {
@@ -33,7 +35,7 @@ const TestScreen = title => () =>
   </View>;
 
 const MainScreenNavigator = TabNavigator({
-  Chats: { screen: TestScreen('Chats') },
+  Chats: { screen: Groups },
   Settings: { screen: TestScreen('Settings') },
 });
 
