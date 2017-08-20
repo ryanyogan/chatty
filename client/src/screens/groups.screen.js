@@ -1,7 +1,7 @@
 /* eslint-disable react/no-multi-comp */
 
 import { _ } from 'lodash';
-import PropTypes from 'prop-types';
+import { shape, string, func, number } from 'prop-types';
 import React, { Component } from 'react';
 import {
   FlatList,
@@ -40,10 +40,16 @@ const mockData = () =>
   }));
 
 class Group extends Component {
+  constructor(props) {
+    super(props);
+
+    this.goToMessages = this.props.goToMessages.bind(this, this.props.group);
+  }
+
   render() {
     const { id, name } = this.props.group;
     return (
-      <TouchableHighlight key={id}>
+      <TouchableHighlight key={id} onPress={this.goToMessages}>
         <View style={styles.groupContainer}>
           <Text style={styles.groupName}>
             {name}
@@ -54,8 +60,8 @@ class Group extends Component {
   }
 }
 
-const { shape, number, string } = PropTypes;
 Group.propTypes = {
+  goToMessages: func.isRequired,
   group: shape({
     id: number,
     name: string,
@@ -67,9 +73,21 @@ class Groups extends Component {
     title: 'Chats',
   };
 
+  constructor(props) {
+    super(props);
+
+    this.goToMessages = this.goToMessages.bind(this);
+  }
+
+  goToMessages(group) {
+    const { navigate } = this.props.navigation;
+    navigate('Messages', { groupId: group.id, title: group.name });
+  }
+
   keyExtractor = item => item.id;
 
-  renderItem = ({ item }) => <Group group={item} />;
+  renderItem = ({ item }) =>
+    <Group group={item} goToMessages={this.goToMessages} />;
 
   render() {
     return (
@@ -83,5 +101,11 @@ class Groups extends Component {
     );
   }
 }
+
+Groups.propTypes = {
+  navigation: shape({
+    navigate: func,
+  }),
+};
 
 export default Groups;

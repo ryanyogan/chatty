@@ -9,6 +9,7 @@ import { Text, View, StyleSheet } from 'react-native';
 import { connect } from 'react-redux';
 
 import Groups from './screens/groups.screen';
+import Messages from './screens/messages.screen';
 
 const styles = StyleSheet.create({
   container: {
@@ -39,9 +40,15 @@ const MainScreenNavigator = TabNavigator({
   Settings: { screen: TestScreen('Settings') },
 });
 
-const AppNavigator = StackNavigator({
-  Main: { screen: MainScreenNavigator },
-});
+const AppNavigator = StackNavigator(
+  {
+    Main: { screen: MainScreenNavigator },
+    Messages: { screen: Messages },
+  },
+  {
+    mode: 'modal',
+  },
+);
 
 const firstAction = AppNavigator.router.getActionForPathAndParams('Main');
 const tempNavState = AppNavigator.router.getStateForAction(firstAction);
